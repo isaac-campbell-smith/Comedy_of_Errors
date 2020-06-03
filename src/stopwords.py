@@ -1,12 +1,12 @@
 import string
-words='''a,able,about,across,after,all,almost,also,am,among,an,and,announcer,any,\
-applause,are,as,at,audience,be,because,been,but,by,can,cheering,could,dear,did,do,does,either,\
-else,ever,every,for,from,gentlemen,get,got,had,has,have,he,her,hers,him,his,\
-how,however,i,if,in,into,is,it,its,just,ladies,laughter,least,let,like,likely,may,\
-me,might,most,must,my,narrator,neither,no,of,off,often,on,only,or,other,our,\
+words='''a,able,about,across,after,ah,all,almost,also,am,among,an,and,announcer,any,\
+applause,applauding,are,as,at,audience,be,because,been,but,by,can,cheering,clapping,could,dear,did,do,does,either,\
+else,ever,every,for,from,gentlemen,get,got,ha,had,has,have,he,her,hers,him,his,\
+how,however,i,im,if,in,into,is,it,its,just,ladies,laughing,laughter,least,let,like,likely,may,\
+me,might,most,must,my,narrator,neither,no,of,off,often,on,only,oh,or,other,our,\
 own,rather,said,say,says,she,should,since,so,some,than,that,the,their,\
 them,then,there,these,they,this,tis,to,too,transcript,twas,us,wants,was,we,were,\
-what,when,where,which,while,who,whom,why,will,with,would,yet,you,your'''
+when,where,which,while,who,whom,why,will,with,would,yet,you,your'''
 
 loosies='''00,000,08,10,100,101,11,114,11th,12,120,13,13th,14,15,150,1500,16,16th,17,18,180,18th,\
 19,1900s,1930s,1940s,1950s,1965,1970,1970s,1982,1986,1989,1990,1996,1997,1999,20,200,2000,\
