@@ -1,6 +1,6 @@
 import numpy as np
 import unicodedata
-from .stopwords import stopwords
+from .stopwords import stopwords, second_filter_words
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.util import ngrams
@@ -25,4 +25,5 @@ def tokenize_and_filter(series):
 def lemmatize_tokens(series):
     lemmatizer = WordNetLemmatizer()
     filtered_tokens = tokenize_and_filter(series)
-    return filtered_tokens.apply(lambda ls: [lemmatizer.lemmatize(w) for w in ls][10:])
+    lemmatized_tokens = filtered_tokens.apply(lambda ls: [lemmatizer.lemmatize(w) for w in ls][10:])
+    return lemmatized_tokens.apply(lambda ls: [word for word in ls if word not in second_filter_words()])
