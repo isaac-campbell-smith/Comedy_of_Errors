@@ -3,9 +3,9 @@ import pandas as pd
 words='''a,able,about,across,after,ah,all,almost,also,am,among,an,and,announcer,any,\
 applause,applauding,are,as,at,audience,be,because,been,but,by,can,cheering,clapping,could,dear,did,do,does,either,\
 else,ever,every,for,from,fuck,gentlemen,get,got,ha,had,has,have,he,her,hers,him,his,\
-how,however,i,im,if,in,into,is,it,its,just,know,laugh,laughing,laughter,least,let,like,likely,may,\
+how,hbo,however,i,im,if,in,into,is,it,its,just,know,laugh,laughing,laughter,least,let,like,likely,may,\
 me,might,most,must,my,narrator,neither,no,of,off,often,on,only,oh,or,other,our,\
-own,rather,said,say,says,she,should,since,so,some,than,that,the,their,\
+own,rather,said,say,says,she,should,since,so,some,televised,than,that,the,their,\
 them,then,there,these,they,this,tis,to,too,transcript,twas,us,wants,was,we,were,\
 when,where,which,while,who,whom,why,will,with,would,yet,you,your'''
 
