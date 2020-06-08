@@ -14,23 +14,14 @@ def index():
 @app.route('/solve', methods=['POST'])
 def solve():
     user_data = request.json
-    one = user_data['one']
-    two = user_data['two']
-    three = user_data['three']
-    four = user_data['four']
-    five = user_data['five']
-    six = user_data['six']
-    seven = user_data['seven']
-    eight = user_data['eight']
-    nine = user_data['nine']
-    ten = user_data['ten']
-    recommendations = _recommend(one, two, three, four, five, six, seven, eight, nine, ten)
-    return jsonify({'recommendations':recommendations})
+    #recommendations = 'foobar'
+    return jsonify({'recommendations':user_data})
 
-def _recommend(one, two, three, four, five, six, seven, eight, nine, ten):
+def _recommend(input):
     if one:
         print (posters[0])
         recommendations = posters[0]
+    recommendations = 'Foo Bar'
     return recommendations
 
 if __name__ == '__main__':
