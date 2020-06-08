@@ -6,29 +6,37 @@ class ItemRecommender():
     '''
     Content based item recommender
     '''
-    def __init__(self, similarity_measure=None):
+    def __init__(self):
         pass
 
     
-    def fit(self, X, titles):
+    def fit(self, X, titles, clusters):
         '''
         Takes a numpy array of the item attributes and creates the similarity matrix
 
         INPUT -
             X: NUMPY ARRAY - Rows are items, columns are feature values
-            titles: LIST - List of the item names/titles in order of the numpy arrray
-        
+            titles: ARRAY - List of the item names/titles in order of the numpy arrray
+            genres: ARRAY - List of corresponding genres pseudo-scientifically derived in Clustering Analysis notebook
         OUTPUT - None
-
-
-        Notes:  You might want to keep titles and X as attributes to refer to them later
-
-        Create the a similarity matrix of item to item similarity
         '''
         self.sim = cosine_similarity(X)
         self.titles = titles
+        self.clusters = clusters
         
-    def get_recommendations(self, item, n=5):
+    def get_group_cluster(self, idx):
+        '''
+        Takes a title index which maps to the corresponding genre and returns all titles w/in
+        INPUT - 
+            idx: INT
+        OUTPUT - 
+            cluster_titles: ARRAY - List of titles within cluster
+        '''
+        cluster_marker = self.genres[idx]
+        cluster_titles = (self.genres == cluster_marker)
+        return cluster_titles
+    
+    def get_recommendations(self, item, top=True, n=5):
         '''
         Returns the top n items related to the item passed in
         INPUT:
@@ -40,6 +48,10 @@ class ItemRecommender():
         For a given item find the n most similar items to it (this can be done using the similarity matrix created in the fit method)
         '''
         title_index = self.titles.index(item)
-        selected = self.sim[title_index] 
-        top = np.argsort(selected)[-2:-n-2:-1]
-        return list(np.array(self.titles)[top])
+        similarities = self.sim[title_index]
+        selected = similarities[get_group_cluster]
+        if top:
+            args = np.argsort(selected)[-2:-n-2:-1]
+        else:
+            args = np.argsort(selected)[:n]
+        return list(np.array(self.titles)[args])
