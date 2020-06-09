@@ -1,34 +1,10 @@
-from browser import document, ajax, console
+from browser import bind, document, ajax, console
+from browser.widgets.dialog import InfoDialog
 import json
-def get_inputs(event):
-  #print (document.value)
-  print ('FOO_BAR')
-  ''' special_one = document['one'].click
-  special_two = document['two'].value
-  special_three = document['three'].value
-  special_four = document['four'].value
-  special_five = document['five'].value
-  special_six = document['six'].value
-  special_seven = document['seven'].value
-  special_eight = document['eight'].value
-  special_nine = document['nine'].value
-  special_ten = document['ten'].value
-  return {'one': int(special_one),
-          'two': int(special_two),
-          'three': int(special_three),
-          'four': int(special_four),
-          'five': int(special_five), 
-          'six': int(special_six),
-          'seven': int(special_seven),
-          'eight': int(special_eight),
-          'nine': int(special_nine),
-          'ten': int(special_ten)}
-  '''
-  return 'FOO_BAR'
 
 def display_solutions(req):
   result = json.loads(req.text)
-  document['recommendations'].html = f"{result['recommendations']}"
+  document['recommendations'].html = result['recommendations']
 
 def send_inputs_json(inputs):
   req = ajax.Ajax()
@@ -39,8 +15,18 @@ def send_inputs_json(inputs):
   req.set_header('Content-Type', 'application/json')
   req.send(json.dumps(inputs))
 
+def get_it(event):
+  print (event.value)
+def quality_check():
+  document['quality_checker'].bind('click', get_it)
+def results():
+  quality_check()
+  display = document['results'].style.display
+  document['results'].style.display = "inline" if display == "none" else "none"
+
 def click1(event):
   send_inputs_json(1)
+  results()
 
 def click2(event):
   send_inputs_json(2)

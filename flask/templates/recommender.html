@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
     <head>
       <meta charset="utf-8">
@@ -8,73 +8,104 @@
       <meta name="author" content="Isaac">
       <script src="{{ url_for('static', filename='brython.js')}}"></script>
       <script src="{{ url_for('static', filename='brython_stdlib.js')}}"></script>
-    
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='css/bootstrapp.css')}}">
     </head>
     
     <body onload="brython()">
     
     <script type="text/python" src="{{ url_for('static', filename='brapp.py')}}"></script> 
-    <!-- <script type="text/python">  
-        from browser import document, ajax, console
-        import json
-        def click(event):
-            x = document["1"].value
-            print (x)
-        document['1'].bind('click', click)
-        document['2'].bind('click', click)
-        # function to generate request
-        def send_coefficient_json(input):
-            req = ajax.Ajax()
-            req.bind('complete', display_solutions)
-            req.open('POST',
-                     '/solve',
-                     True)
-            req
-        # function to render response
-    </script>--> 
+    <script>
+        // set image properties, for Highlight effect added when click
+        var imgProp = {
+         'padding': '0px',
+         'backgroundColor': '#eded01',
+         'borderSize': '1ps',
+         'borderStyle': 'dashed',
+         'borderColor': '#0001fe'
+        };
+        
+        // function to highlight IMGs on click - from: https://coursesweb.net/
+        function highlightImg() {
+         // gets all <img> tags, and their number
+         var allimgs = document.getElementsByTagName('img');
+         var nrallimgs = allimgs.length;
+        
+         // traverses the <img> elements, and register onclick to each one
+         // else, apply the properties defined in $imgProp
+         for(i=0; i<nrallimgs; i++) {
+         allimgs[i].onclick=function() {
+         // if borderStyle is already applied, anulates the 'padding', 'background' and 'border' properties
+         if(this.style.borderStyle == imgProp.borderStyle) {
+         this.style.padding = 'auto';
+         this.style.background = 'none';
+         this.style.border = 'none';
+         }
+         else {
+         this.style.padding = imgProp.padding;
+         this.style.backgroundColor = imgProp.backgroundColor;
+         this.style.borderSize = imgProp.borderSize;
+         this.style.borderStyle = imgProp.borderStyle;
+         this.style.borderColor = imgProp.borderColor;
+         }
+         }
+         }
+        }
+        
+        // calls the highlightImg() function to apply the effect
+        highlightImg();
+    </script>
+
         <h1>Comedy Special Recommender</h1>
-        <p></p>
-        <p>Click a special you've seen from the images below!</p>
+        <p>This is where I will be explaining how it works</p>
+        <h3>Click a special you've seen from the images below!</h3>
 
         <div>
             <button type="button" id="1" value="1">
-                <img src="{{ user_images[0] }}" width='200', height='250'>
+                <img src="{{ user_images[0] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="2" value="2">
-                <img src="{{ user_images[2] }}" width='200', height='250'>
+                <img src="{{ user_images[2] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="3" value="3">
-                <img src="{{ user_images[3] }}" width='200', height='250'>
+                <img src="{{ user_images[3] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="4" value="4">
-                <img src="{{ user_images[4] }}" width='200', height='250'>
+                <img src="{{ user_images[4] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="5" value="5">
-                <img src="{{ user_images[5] }}" width='200', height='250'>
+                <img src="{{ user_images[5] }}" width='200', height='250' onclick="highlightImg()">
             </button>
         </div>
 
         <div>
             <button type="button", id="6" value="6">
-                <img src="{{ user_images[6] }}" width='200', height='250'>
+                <img src="{{ user_images[6] }}" width='200', height='250' onclick="highlightImg()"/>
             </button>
             <button type="button" id="7" value="7">
-                <img src="{{ user_images[7] }}" width='200', height='250'>
+                <img src="{{ user_images[7] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="8" value="8">
-                <img src="{{ user_images[8] }}" width='200', height='250'>
+                <img src="{{ user_images[8] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="9" value="9">
-                <img src="{{ user_images[9] }}" width='200', height='250'>
+                <img src="{{ user_images[9] }}" width='200', height='250' onclick="highlightImg()">
             </button>
             <button type="button" id="10" value="10">
-                <img src="{{ user_images[1] }}" width='200', height='250'>
+                <img src="{{ user_images[1] }}" width='200', height='250' onclick="highlightImg()">
             </button>  
         </div>
-        
-        <div>
-          <p> Your Recommendations: <span id="recommendations"></span></p>
-    
+        <div >
+            <p> How did you like it?
+            <select id="qualtity_checker">
+                <option value=1>Loved It!</option>
+                <option value=2>It Was OK!</option>
+                <option value=3>Ewwwwwww!</option>
+            </select>
+        </div>
+        <div id="results" style="display:none">
+            <p> Your Recommendations: <p><span id="recommendations"></span></p>
+        </div>
     
     </body>
     </html>
