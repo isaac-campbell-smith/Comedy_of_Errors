@@ -4,7 +4,11 @@ import json
 
 def display_solutions(req):
   result = json.loads(req.text)
-  document['recommendations'].html = result['recommendations']
+  document['special_title'].html = result['special_title']
+  document['recommendations_1'].html = result['recommendations_1']
+  document['recommendations_2'].html = result['recommendations_2']
+  document['recommendations_3'].html = result['recommendations_3']
+  document['results'].style.display = "inline"
 
 def send_inputs_json(inputs):
   req = ajax.Ajax()
@@ -15,45 +19,43 @@ def send_inputs_json(inputs):
   req.set_header('Content-Type', 'application/json')
   req.send(json.dumps(inputs))
 
-def get_it(event):
-  print (event.value)
-def quality_check():
-  document['quality_checker'].bind('click', get_it)
-def results():
-  quality_check()
-  display = document['results'].style.display
-  document['results'].style.display = "inline" if display == "none" else "none"
+def results(inputs):
+  send_inputs_json(inputs)
+  # if display == "none" else "none"
+
+def bigClick(event):
+  selection = document['all_special'].value
+  send_inputs_json(selection)
 
 def click1(event):
-  send_inputs_json(1)
-  results()
+  results(1)
 
 def click2(event):
-  send_inputs_json(2)
+  results(2)
 
 def click3(event):
-  send_inputs_json(3)
+  results(3)
 
 def click4(event):
-  send_inputs_json(4)
+  results(4)
 
 def click5(event):
-  send_inputs_json(5)
+  results(5)
 
 def click6(event):
-  send_inputs_json(6)
+  results(6)
 
 def click7(event):
-  send_inputs_json(7)
+  results(7)
 
 def click8(event):
-  send_inputs_json(8)
+  results(8)
 
 def click9(event):
-  send_inputs_json(9)
+  results(9)
 
 def click10(event):
-  send_inputs_json(10)
+  results(10)
 
 document['1'].bind('click', click1)
 document['2'].bind('click', click2)
@@ -65,3 +67,4 @@ document['7'].bind('click', click7)
 document['8'].bind('click', click8)
 document['9'].bind('click', click9)
 document['10'].bind('click', click10)
+document['all_special_button'].bind('click', bigClick)

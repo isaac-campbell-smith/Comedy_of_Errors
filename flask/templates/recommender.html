@@ -9,103 +9,352 @@
       <script src="{{ url_for('static', filename='brython.js')}}"></script>
       <script src="{{ url_for('static', filename='brython_stdlib.js')}}"></script>
         <link rel="stylesheet" type="text/css"
-              href="{{ url_for('static', filename='css/bootstrapp.css')}}">
+              href="{{ url_for('static', filename='css/bootstrap.css')}}">
     </head>
     
     <body onload="brython()">
     
     <script type="text/python" src="{{ url_for('static', filename='brapp.py')}}"></script> 
-    <script>
-        // set image properties, for Highlight effect added when click
-        var imgProp = {
-         'padding': '0px',
-         'backgroundColor': '#eded01',
-         'borderSize': '1ps',
-         'borderStyle': 'dashed',
-         'borderColor': '#0001fe'
-        };
-        
-        // function to highlight IMGs on click - from: https://coursesweb.net/
-        function highlightImg() {
-         // gets all <img> tags, and their number
-         var allimgs = document.getElementsByTagName('img');
-         var nrallimgs = allimgs.length;
-        
-         // traverses the <img> elements, and register onclick to each one
-         // else, apply the properties defined in $imgProp
-         for(i=0; i<nrallimgs; i++) {
-         allimgs[i].onclick=function() {
-         // if borderStyle is already applied, anulates the 'padding', 'background' and 'border' properties
-         if(this.style.borderStyle == imgProp.borderStyle) {
-         this.style.padding = 'auto';
-         this.style.background = 'none';
-         this.style.border = 'none';
-         }
-         else {
-         this.style.padding = imgProp.padding;
-         this.style.backgroundColor = imgProp.backgroundColor;
-         this.style.borderSize = imgProp.borderSize;
-         this.style.borderStyle = imgProp.borderStyle;
-         this.style.borderColor = imgProp.borderColor;
-         }
-         }
-         }
-        }
-        
-        // calls the highlightImg() function to apply the effect
-        highlightImg();
-    </script>
-
+    <div align="center">
         <h1>Comedy Special Recommender</h1>
         <p>This is where I will be explaining how it works</p>
         <h3>Click a special you've seen from the images below!</h3>
 
         <div>
+            <label for="all_special">or search for something else: </label>
+            <input list="all_specials" name="all_special" id="all_special">
+            <datalist id="all_specials" class="dropdown-menu">
+                    <option value="Billy Connolly High Horse Tour Live">
+                    <option value="Hannah Gadsby Douglas">
+                    <option value="Patton Oswalt I Love Everything">
+                    <option value="Russell Peters Deported">
+                    <option value="Jimmy O Yang Good Deal">
+                    <option value="Jo Koy Lights Out 2012">
+                    <option value="Lee Mack Going Out Live">
+                    <option value="Lee Mack Live">
+                    <option value="T J Miller No Real Reason">
+                    <option value="Jerry Seinfeld 23 Hours To Kill">
+                    <option value="Sincerely Louis Ck">
+                    <option value="Jim Norton American Degenerate">
+                    <option value="Jim Norton Monster Rain">
+                    <option value="Daniel Sloss X">
+                    <option value="Maria Bamford Weakness Is The Brand">
+                    <option value="Chris D Elia White Male Black Comic">
+                    <option value="Chris D Elia Man On Fire">
+                    <option value="Tom Segura Ball Hog">
+                    <option value="Bert Kreischer Hey Big Boy">
+                    <option value="Marc Maron End Times Fun">
+                    <option value="Pete Davidson Smd">
+                    <option value="Pete Davidson Alive From New York">
+                    <option value="Amanda Seales I Be Knowin">
+                    <option value="Stewart Lee Carpet Remnant World">
+                    <option value="Stewart Lee Content Provider">
+                    <option value="Sara Pascoe Ladsladslads 2019">
+                    <option value="Dan Soder Son Of A Gary">
+                    <option value="Jim Gaffigan Quality Time">
+                    <option value="Kevin Bridges Whole Different Story">
+                    <option value="Kevin Bridges Story So Far Live Glasgow">
+                    <option value="Kevin Bridges The Story Continues">
+                    <option value="Andy Woodhull Youll Always Be Late">
+                    <option value="Michelle Wolf Joke Show">
+                    <option value="Tiffany Haddish Black Mitzvah">
+                    <option value="Mike Birbiglia The New One">
+                    <option value="Iliza Shlesinger Unveiled">
+                    <option value="Seth Meyers Lobby Baby">
+                    <option value="Arsenio Hall Smart And Classy">
+                    <option value="Nikki Glaser Bangin">
+                    <option value="Bill Burr Paper Tiger">
+                    <option value="Dave Chappelle Sticks Stones">
+                    <option value="Emily Heller Ice Thickeners">
+                    <option value="David Cross Oh Come On">
+                    <option value="Whitney Cummings Can I Touch It">
+                    <option value="Ralphie May Filthy Animal Tour">
+                    <option value="Mike Epps Only One Mike">
+                    <option value="Adam Devine Best Time Of Our Lives">
+                    <option value="Jo Koy Live From Seattle">
+                    <option value="Jo Ko Comin In Hot">
+                    <option value="The Standups Gina Yashere 2018">
+                    <option value="Wanda Sykes Not Normal">
+                    <option value="Cedric The Entertainer Live From The Ville">
+                    <option value="Eddie Murphy Raw">
+                    <option value="Colin Quinn The New York Story">
+                    <option value="Demetri Martin Live At The Time">
+                    <option value="George Carlin What Am I Doing In New Jersey">
+                    <option value="Chelsea Peretti One Of The Greats">
+                    <option value="Anthony Jeselnik Fire In The Maternity Ward">
+                    <option value="Roy Wood Jr No One Loves You">
+                    <option value="Robin Williams Live On Broadway 2002">
+                    <option value="Jimmy Carr The Best Of Ultimate Gold Greatest Hits">
+                    <option value="Nate Bargatze The Tennessee Kid">
+                    <option value="Kevin Hart Irresponsible">
+                    <option value="Nate Bargatze Time Magic">
+                    <option value="Amy Schumer Growing">
+                    <option value="Enissa Amani Ehrenwort 2018">
+                    <option value="Ken Jeong You Complete Me Ho">
+                    <option value="Ray Romano Right Here Around The Corner">
+                    <option value="Gabriel Fluffy Iglesias One Show Fits All">
+                    <option value="Sebastian Maniscalco Stay Hungry">
+                    <option value="Latin History For Morons John Leguizamo">
+                    <option value="Sebastian Maniscalco Arent You Embarrassed">
+                    <option value="Sebastian Maniscalco Whats Wrong With People">
+                    <option value="Ellen Degeneres Relatable">
+                    <option value="Pete Holmes Dirty Clean">
+                    <option value="Vir Das Losing It">
+                    <option value="Trevor Noah Son Of Patricia">
+                    <option value="Jeff Foxworthy Larry The Cable Guy Weve Been Thinking">
+                    <option value="Adam Sandler 100 Fresh">
+                    <option value="Jeff Foxworthy Totally Committed">
+                    <option value="Ron White If You Quit Listening Ill Shutup">
+                    <option value="Carlin At Carnegie">
+                    <option value="Comedy Central Presents Tom Segura">
+                    <option value="Mo Amer The Vagabond">
+                    <option value="Joe Mandes Award Winning Comedy Special">
+                    <option value="Henry Rollins Keep Talking Pal">
+                    <option value="Joe Rogan Strange Times">
+                    <option value="D L Hughley Contrarian">
+                    <option value="Daniel Sloss Dark">
+                    <option value="Daniel Sloss Jigsaw">
+                    <option value="Iliza Shlesinger Freezing Hot">
+                    <option value="Iliza Shlesinger War Paint">
+                    <option value="Bert Kreischer Secret Time">
+                    <option value="Demetri Martin Overthinker">
+                    <option value="Bill Maher Live From Oklahoma 2018">
+                    <option value="Rowan Atkinson Live 1992">
+                    <option value="Iliza Shlesinger Confirmed Kills">
+                    <option value="Iliza Shlesinger Elder Millennial 2018">
+                    <option value="Jim Gaffigan Noble Ape">
+                    <option value="Jim Norton Contextually Inadequate">
+                    <option value="Hannah Gadsby Nanette">
+                    <option value="Brad Williams Daddy Issues">
+                    <option value="Deray Davis How To Act Black">
+                    <option value="Ricky Gervais Live Iv Science">
+                    <option value="Jim Jefferies This Is Me Now">
+                    <option value="Russell Peters Outsourced">
+                    <option value="Russell Peters Almost Famous 2016">
+                    <option value="Ron White A Little Unprofessional">
+                    <option value="Michael Mcintyre Hello Wembley">
+                    <option value="Kevin Smith Silent But Deadly">
+                    <option value="Kevin James Never Dont Give Up">
+                    <option value="Brent Morin Im Brent Morin 2015">
+                    <option value="Nikki Glaser Perfect 2016">
+                    <option value="Ali Wong Hard Knock Wife">
+                    <option value="Kavin Jay Everybody Calm Down">
+                    <option value="John Mulaney Kid Gorgeous At Radio City">
+                    <option value="Eddie Griffin Undeniable 2018">
+                    <option value="Greg Davies You Magnificent Beast">
+                    <option value="Comedy Central Presents Patton Oswalt">
+                    <option value="Marlon Wayans Wokeish">
+                    <option value="Ricky Gervais Humanity">
+                    <option value="Adel Karam Live From Beirut">
+                    <option value="Stewart Lee 90s Comedian 2006">
+                    <option value="Mike Birbiglia My Girlfriends Boyfriend 2013">
+                    <option value="Dave Attell Road Work">
+                    <option value="Eddie Izzard Glorious 1997">
+                    <option value="Chris Rock Bring Pain">
+                    <option value="Ari Shaffir Double Negative">
+                    <option value="Chris Rock Tamborine">
+                    <option value="Fred Armisen Standup For Drummers">
+                    <option value="Dana Carvey Straight White Male 60 2016">
+                    <option value="Eddie Izzard Stripped 2009">
+                    <option value="Todd Glass Act Happy">
+                    <option value="Brian Regan Standing Up 2007">
+                    <option value="Katt Williams Great America 2018">
+                    <option value="Jimmy Carr Being Funny">
+                    <option value="Jimmy Carr Laughing And Joking 2013">
+                    <option value="Eddie Izzard Unrepeatable">
+                    <option value="D L Hughley Unapologetic 2007">
+                    <option value="Bridget Everett Gynecological Wonder 2015">
+                    <option value="Chris Rock Never Scared 2004">
+                    <option value="Stewart Lee Standup Comedian">
+                    <option value="Jimmy Carr Funny Business">
+                    <option value="Eddie Izzard Dress Kill 1999">
+                    <option value="Chris Tucker Live 2015">
+                    <option value="Kevin Hart What Now 2016">
+                    <option value="Kevin Hart Let Me Explain 2013">
+                    <option value="Tom Segura Disgraceful 2018">
+                    <option value="Bill Hicks Live At Laff Stop Austin Tx And Cobbs San Francisco Ca 1993">
+                    <option value="Michelle Wolf Nice Lady 2017">
+                    <option value="Fahim Anwar Theres No Business Like Show Business 2017">
+                    <option value="Ellen Degeneres The Beginning 2000">
+                    <option value="Maz Jobrani Immigrant 2017">
+                    <option value="Todd Barry Spicy Honey 2017">
+                    <option value="Jerry Seinfeld Im Telling You For The Last Time">
+                    <option value="Craig Ferguson Does This Need To Be Said 2011">
+                    <option value="Craig Ferguson Tickle Fight 2017">
+                    <option value="Dylan Moran Like Totally 2006">
+                    <option value="Dave Chappelle Equanimity 2017">
+                    <option value="Dave Chappelle The Bird Revelation 2017">
+                    <option value="Craig Ferguson Im Here To Help 2013">
+                    <option value="Russell Howard Recalibrate 2017">
+                    <option value="Whitney Cummings I Love 2014">
+                    <option value="Whitney Cummings Im Your Girlfriend 2016">
+                    <option value="Sarah Millican Chatterbox Live 2011">
+                    <option value="Anjelah Johnson Not Fancy">
+                    <option value="Ricky Gervais Live 2 Politics 2004">
+                    <option value="Russell Howard Live Dingledodies 2009">
+                    <option value="Christina Pazsitsky Mother Inferior">
+                    <option value="Jack Whitehall At Large 2017">
+                    <option value="Cristela Alonzo Lower Classy 2017">
+                    <option value="Judah Friedlander America Is The Greatest Country In The United States 2017">
+                    <option value="Aziz Ansari Live In Madison Square Garden 2015">
+                    <option value="Aziz Ansari Buried Alive 2013">
+                    <option value="Paul Mooney Piece Mind Godbless America 2014">
+                    <option value="Patton Oswalt Annihilation 2017">
+                    <option value="Chris Rock Kill The Messenger London New York Johannesburg 2008 Movie Script">
+                    <option value="Bill Maher Live From D C 2014">
+                    <option value="Sarah Silverman Jesus Is Magic 2005">
+                    <option value="Sarah Silverman We Are Miracles 2013">
+                    <option value="Pablo Francisco Ouch Live San Jose 2006">
+                    <option value="Bill Maher But Im Not Wrong 2010">
+                    <option value="Russell Brand Messiah Complex 2013">
+                    <option value="Chris Rock Bigger Blacker 1999">
+                    <option value="Gabriel Iglesias Hot And Fluffy 2007">
+                    <option value="Gabriel Iglesias Im Sorry For What I Said When I Was Hungry 2016">
+                    <option value="Hasan Minhaj Homecoming King 2017">
+                    <option value="Frankie Boyle Live 2 If I Could Reach Out Through Your Tv And Strangle You I Would 2010">
+                    <option value="Frankie Boyle Hurt Like You Ve Never Been Loved">
+                    <option value="Frankie Boyle Live The Last Days Of Sodom 2012">
+                    <option value="Rory Scovel Tries Stand Up For The First Time A Netflix Special">
+                    <option value="Lisa Lampanelli Back To The Drawing Board 2015">
+                    <option value="Comedy Central Presents Dave Attell">
+                    <option value="Erik Griffin The Ugly Truth 2017">
+                    <option value="Jen Kirkman Just Keep Livin 2017">
+                    <option value="Comedy Central Presents Daniel Tosh">
+                    <option value="Daniel Tosh Completely Serious 2007">
+                    <option value="Al Madrigal Why Is The Rabbit Crying 2013">
+                    <option value="Neal Brennan 3 Mics 2017">
+                    <option value="Norm Macdonald One Night Stand 1991">
+                    <option value="John Mulaney New In Town 2012">
+                    <option value="Donald Glover Weirdo 2012">
+                    <option value="Ali Wong Baby Cobra 2016">
+                    <option value="Norm Macdonald Hitlers Dog Gossip Trickery 2017">
+                    <option value="Daniel Tosh People Pleaser 2016">
+                    <option value="Marc Maron More Later 2015">
+                    <option value="Dylan Moran Off The Hook 2015">
+                    <option value="Richard Pryor Live And Smokin 1971">
+                    <option value="Richard Pryor Here And Now 1983">
+                    <option value="Amy Schumer Mostly Sex Stuff 2012">
+                    <option value="Jim Jefferies Alcoholocaust 2010">
+                    <option value="Amy Schumer Live Apollo 2015">
+                    <option value="Kevin Hart Seriously Funny 2010">
+                    <option value="Hannibal Buress Comedy Camisado 2016">
+                    <option value="Neal Brennan Women And Black Dudes 2014">
+                    <option value="Nick Offerman American Ham 2014">
+                    <option value="Aziz Ansari Intimate Moments Sensual Evening 2010">
+                    <option value="Big Jay Oakerson Live Webster Hall 2016">
+                    <option value="Lenny Bruce Berkeley Concert 1965">
+                    <option value="George Carlin At Usc 1977">
+                    <option value="Jim Norton Mouthful Shame 2017">
+                    <option value="Michael Che Matters">
+                    <option value="Joe Rogan Triggered 2016">
+                    <option value="Trevor Noah Lost Translation 2015">
+                    <option value="Maria Bamford Old Baby 2017">
+                    <option value="Bo Burnham 2013">
+                    <option value="Bo Burnham Make Happy 2016">
+                    <option value="Anthony Jeselnik Caligula 2013">
+                    <option value="Anthony Jeselnik Thoughts Prayers 2015">
+                    <option value="John Mulaney Comeback Kid 2015">
+                    <option value="Bill Hicks Revelations 1993">
+                    <option value="Lewis Black Black Future 2016">
+                    <option value="Doug Stanhope Turning Gun 2012">
+                    <option value="Doug Stanhope Deadbeat Hero 2004">
+                    <option value="Jim Jefferies Contraband 2008">
+                    <option value="Mike Birbiglia Thank God Jokes 2017">
+                    <option value="Sarah Silverman A Speck Of Dust 2017">
+                    <option value="George Carlin Playing Head 1986">
+                    <option value="Louis C K Chewed 2008">
+                    <option value="Comedy Central Presents Mitch Hedberg">
+                    <option value="Tom Segura Completely Normal 2014">
+                    <option value="George Carlin Carlin Campus 1984">
+                    <option value="Louis C K Live At The Beacon Theatre 2011">
+                    <option value="George Carlin Doin 1990">
+                    <option value="Ricky Gervais England 2 2010">
+                    <option value="Amy Schumer Leather Special 2017">
+                    <option value="Jim Gaffigan Cinco 2017">
+                    <option value="Jim Jefferies I Swear God 2009">
+                    <option value="Louis C K Hilarious 2010">
+                    <option value="Louis C K Shameless 2007">
+                    <option value="Bill Burr Im Sorry Feel Way 2014">
+                    <option value="Bill Burr People 2012">
+                    <option value="Dave Chappelle Worth 2004">
+                    <option value="Dave Chappelle Killin Softly 2000">
+                    <option value="Eddie Griffin Can Tell Em I Said">
+                    <option value="Bill Burr Walk Way 2017">
+                    <option value="Louis Ck Oh My God">
+                    <option value="Louis C K Live At The Comedy Store 2015">
+                    <option value="Bill Hicks Relentless 1992">
+                    <option value="Daniel Tosh Happy Thoughts 2011">
+                    <option value="Patrice Oneal Elephant In The Room 2011">
+                    <option value="Katt Williams Live 2006">
+                    <option value="Richard Pryor Live Concert 1979">
+                    <option value="Richard Pryor Live Sunset Strip 1982">
+                    <option value="Trevor Noah Afraid Dark 2017">
+                    <option value="Jim Jefferies Bare 2014">
+                    <option value="Dave Chappelle Deep Heart Texas 2017">
+                    <option value="Tom Segura Mostly Stories 2016">
+                    <option value="Bill Burr Let It Go 2010">
+                    <option value="Jim Jefferies Freedumb 2016">
+                    <option value="Eddie Murphy Delirious">
+                    <option value="Dave Chappelle Age Spin 2017">
+                    <option value="George Carlin Back Town 1996">
+                    <option value="Louis C K 2017">
+                    <option value="George Carlin Jamming New York 1992">
+                    <option value="George Carlin You Are All Diseased">
+                    <option value="Reggie Watts Spatial">
+                    <option value="George Carlin Complaints Grievances">
+                    <option value="George Carlin Life Is Worth Losing">
+                    <option value="George Carlin Its Bad For Ya">
+            </datalist>
+            <input  autoComplete="on" list="all_specials" id="all_special_button" type="submit"> 
+        </div>
+        <br>
+        <div class="section">
             <button type="button" id="1" value="1">
-                <img src="{{ user_images[0] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[0] }}" width='200', height='250' >
             </button>
             <button type="button" id="2" value="2">
-                <img src="{{ user_images[2] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[2] }}" width='200', height='250' >
             </button>
             <button type="button" id="3" value="3">
-                <img src="{{ user_images[3] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[3] }}" width='200', height='250' >
             </button>
             <button type="button" id="4" value="4">
-                <img src="{{ user_images[4] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[4] }}" width='200', height='250' >
             </button>
             <button type="button" id="5" value="5">
-                <img src="{{ user_images[5] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[5] }}" width='200', height='250' >
             </button>
         </div>
 
         <div>
             <button type="button", id="6" value="6">
-                <img src="{{ user_images[6] }}" width='200', height='250' onclick="highlightImg()"/>
+                <img src="{{ user_images[6] }}" width='200', height='250' />
             </button>
             <button type="button" id="7" value="7">
-                <img src="{{ user_images[7] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[7] }}" width='200', height='250' >
             </button>
             <button type="button" id="8" value="8">
-                <img src="{{ user_images[8] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[8] }}" width='200', height='250' >
             </button>
             <button type="button" id="9" value="9">
-                <img src="{{ user_images[9] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[9] }}" width='200', height='250' >
             </button>
             <button type="button" id="10" value="10">
-                <img src="{{ user_images[1] }}" width='200', height='250' onclick="highlightImg()">
+                <img src="{{ user_images[1] }}" width='200', height='250' >
             </button>  
         </div>
-        <div >
-            <p> How did you like it?
-            <select id="qualtity_checker">
-                <option value=1>Loved It!</option>
-                <option value=2>It Was OK!</option>
-                <option value=3>Ewwwwwww!</option>
-            </select>
-        </div>
+        <br>
+
         <div id="results" style="display:none">
-            <p> Your Recommendations: <p><span id="recommendations"></span></p>
+            <p style="bold"> Based on IMDB users who enjoyed <span style="font-weght: bold;" id="special_title"></span>, you may be interested in:<br> 
+                <span id="recommendations_1"></span><br><br>
+                Thought it was just ok? Here are some dissimilar specials within its genre:<br>
+                <span id="recommendations_2"></span><br><br>
+                Hated it to no end? Here are the specials that are most most dissimilar:<br>
+                <span id="recommendations_3"></span>
+            </p>
+                
         </div>
-    
+    </div>
     </body>
     </html>
