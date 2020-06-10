@@ -17,7 +17,9 @@
     <script type="text/python" src="{{ url_for('static', filename='brapp.py')}}"></script> 
     <div align="center">
         <h1>Comedy Special Recommender</h1>
-        <p>This is where I will be explaining how it works</p>
+        <h5>This recommender is my attempt at resolving the 'cold start' problem in recommending stand up comedy specials.
+            Check out my github repo page for more info.
+        </h5>
         <h3>Click a special you've seen from the images below!</h3>
 
         <div>
@@ -346,11 +348,11 @@
         <br>
 
         <div id="results" style="display:none">
-            <p style="bold"> Based on IMDB users who enjoyed <span style="font-weght: bold;" id="special_title"></span>, you may be interested in:<br> 
+            <dt>Based on IMDB users who enjoyed <i><span style="font-weight: italic;" id="special_title"></i></span>, you may be interested in:</dt>
                 <span id="recommendations_1"></span><br><br>
-                Thought it was just ok? Here are some dissimilar specials within its genre:<br>
+                <dt>Thought it was just ok? Here are some dissimilar specials within its genre:</dt>
                 <span id="recommendations_2"></span><br><br>
-                Hated it to no end? Here are the specials that are most most dissimilar:<br>
+            <dt>Hated it to no end? Here are the specials that are most most dissimilar:</dt>
                 <span id="recommendations_3"></span>
             </p>
                 

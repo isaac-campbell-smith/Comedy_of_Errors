@@ -4,6 +4,9 @@ from scipy.sparse import csr_matrix
 from sklearn.metrics.pairwise import cosine_similarity
 from .item_reccomender import ItemRecommender
 from time import time
+np.seterr(divide='ignore', invalid='ignore')
+
+
 
 class ReviewRecommender(object):
     """Item-item similarity recommender."""
@@ -89,8 +92,6 @@ class ReviewRecommender(object):
             print("Execution time: %f seconds" % (time()-start_time))
         return output
 
-
-
     def top_n_recs(self, user_id, n_recs=5):
         """Take user_id argument and number argument.
         Return that number of items with the highest predicted ratings,
@@ -103,11 +104,17 @@ class ReviewRecommender(object):
         unrated_items_by_pred_rating = [item for item in item_index_sorted_by_pred_rating
                                         if item not in items_rated_by_this_user]
 
-        if preds[items_rated_by_this_user].max() < 7: #make this more sophisticated
+        positivity = preds[items_rated_by_this_user].max()
+        if positivity < 7: #make this more sophisticated
             recs = []
-            for special in self.specials.iloc[items_rated_by_this_user]:
-                item_recs = self.item_recommender.get_recommendations(special, top=False, n=n_recs)
-                recs.extend(item_recs)
+            if positivity < 4:
+                for special in self.specials.iloc[items_rated_by_this_user]:
+                    item_recs = self.item_recommender.get_recommendations(special, neighborhood=False, top=False, n=n_recs)
+                    recs.extend(item_recs)
+            else:
+                for special in self.specials.iloc[items_rated_by_this_user]:
+                    item_recs = self.item_recommender.get_recommendations(special, neighborhood=True, top=False, n=n_recs)
+                    recs.extend(item_recs)
             ## NEED TO FIGURE OUT WAY TO CUT THIS DOWN IF IT GOES OVER
             return recs
         

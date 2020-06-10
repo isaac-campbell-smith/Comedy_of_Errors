@@ -48,6 +48,7 @@ class ItemRecommender():
 
         For a given item find the n most similar items to it (this can be done using the similarity matrix created in the fit method)
         '''
+        
         title_index = np.where(self.titles == item)[0][0]
         similarities = self.sim[title_index]
         
