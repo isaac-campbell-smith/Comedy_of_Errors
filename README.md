@@ -2,6 +2,8 @@
 
 #### Text Classification for better understanding genre of stand up comedy specials
 
+
+
 Data sources: https://scrapsfromtheloft.com/stand-up-comedy-scripts/ | https://imdb.com
 
 ---
@@ -9,13 +11,18 @@ Data sources: https://scrapsfromtheloft.com/stand-up-comedy-scripts/ | https://i
  |  **[Introduction](#introduction)**  |
  **[Data Scraping & Exploration](#data-scraping-&-exploration)**  |
  **[Transforming the Corpus](#transforming-the-corpus)**  |
- **[Cost Benefit & Scoring Metrics](#cost-benefit-&-scoring-metrics)**  |
- **[The Models](#the-models)**  |
- **[Analysis](#analysis)**  |
+ **[Recommender Algorithms](#recommender-algorithms)**  |
+ **[Web App](#web-app)**  |
  |  **[Takeaways](#takeaways)**  |
  
 ---
 ## Introduction
+
+
+![ME](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/75610744_1145056039031910_2648101896400666624_o.jpg)
+
+
+
 Stand up comedy is one of the youngest living artforms and I think people still struggle how to talk about it or capture the breadth of what it is. When I first started performing stand up almost 10 years ago, I voraciously consumed as many specials as I could to learn what I liked and study what worked for others. But I noticed a problem in how the platforms I was on were recommending specials to me...
 
 > <i>‘Because you checked out Patton Oswalt’s special about nerd culture and the Bush administration, here’s more stand up to watch - it’s mostly a guy complaining about not getting laid!’ </i>
@@ -23,7 +30,6 @@ Stand up comedy is one of the youngest living artforms and I think people still 
 While Netflix has made some attempts at sub-classifying stand up content on their platform, to me it leaves a lot to be desired and I wanted to see if I could use Natural Language Processing and Machine Learning to gain deeper insights about style and genre in an attempt to improve recommendations.
 
 
-![ME](https://raw.githubusercontent.com/isaac-campbell-smith/BernoulliTrials_and_Tribulations/master/visuals/FraudvsNot.png)
 
 ---
 ## Data Scraping & Exploration
@@ -38,10 +44,17 @@ The transcriptions are very meticulous which was very appreciated, however there
 #### The Reviews
 I knew I'd need some review data on these specials to flesh out a recommender system. I turned to IMDB for this as it was the only site I could find some. On side note, comedians have been in agreement for years that the traditional long format of a special is somewhat broken and perhaps a better metric to explore would be time spent watching the special. Hopefully I get picked up by Netflix to do that in the future!
 
-I needed to add in <b>Selenium</b> to my initial web-scraping pipeline for this task as there was quite a lot of clicking links on pages to get all the reviews. 
-![Original Dataset](https://raw.githubusercontent.com/isaac-campbell-smith/BernoulliTrials_and_Tribulations/master/visuals/head.png)
+I needed to add in <b>Selenium</b> to my initial web-scraping pipeline for this task as there was quite a lot of 'load more' link clicking on some pages to get all the reviews. Suffice to say, I wound up with a very sparse ratings matrix - the density came in at 0.004! 
 
-![Original Describe](https://raw.githubusercontent.com/isaac-campbell-smith/BernoulliTrials_and_Tribulations/master/visuals/Describe.png)
+![Review Hist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/reviewcounts.png)
+
+![Special Hist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/specialcounts.png)
+
+As far as the actual makeup of these reviews, there are quite a few quirks that I have at least never observed in this area of study, which honestly didn't surprise me. People have very polarized feelings about stand up comedy which made for some interesting trends in recommendation models. 
+
+![Ratings type dist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/ratings_distribution.png)
+![Loved Specials](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/loved.png)
+![Hated Specials](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/hated.png)
 
 
 ---
@@ -50,60 +63,40 @@ I needed to add in <b>Selenium</b> to my initial web-scraping pipeline for this 
 ## Transforming the Corpus
 After hours of tweaking stopwords and model parameters, the final steps I took to categorize these specials was to tokenize, lemmatize, apply a tfidf vectorizer and a k-means clustering algorithm. I even had to write a script to pull out title information to avoid data leakage. Choosing which swear words to drop was probably the most tricky to decide, but in the end I only left out 'fuck'. Check out the Clustering Analysis notebook vocabulary section and play around with it if you want to though - to my eye it was the only curse word that didn't bring any meaningful distinguishing characteristics to the clusters.
 
-The success of these results from this process are probably not as apparent without a good amount of domain knowledge - as a data ssaid when I showed him some of my silhouette plots during the project, this is not a very good knife plot! But there is actually quite a lot to say about these clusters.
+The success of these results from this process are probably not as apparent without a good amount of domain knowledge - as a data sceince peer said when I showed him some of my silhouette plots during this phase of the project, this is not a very good knife plot! But there is actually quite a lot to say about these clusters.
 
 ![Knife](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/KnifePlot.png)
 
-#### FEATURES
-Better features make for better predictions. That isn't the most sophisticated statement but building a reliable model with this data is extremely challenging because we can't say for sure what these variables are and how they interact without a lot of highly idividualized regression analysis (which I have not done a lot of!). I took 2 wildly different approaches to varying results.
+As you might expect from those results, there is a lot of overlap in top feature words throughout these clusters, but there was enough degrees of signifance in common words and unique words to make some interpretations about them. I will say that having seen a lot of these specials was probably more helpful though. Here is a snapshot of my current working classification of the corpus:
 
-1. OneHotEncode Field1. This seemed to me the most likely non-binary categorical feature. I applied a MinMaxScaler to Field3 to account for negative and zero values. I squared and took the log of field4 because it seemed to have a strong influence on classification and I think it needed to be mellowed out. I also took the log of zip, account ID, and the square root of amount.
-
-2. OneHotEncode everything. Literally everything. This was super computationally expensive and I could only get it to run through an XGBoosting algorithm. 
+![Text Clusters](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/text%20analysis.png)
 
 
 ---
 
-## The Models
-### Random & Isolated Forest Classifiers
-Random Forests are great out of the box generally but they only performed OK in this case! Isolated Forests are a bit different because it uses unsupervised learning algorithms to look for outliers and scales it's probability from -1, 1. While I did find that this performed better than a normal Random Forest, I could not figure out how to use them in a 
+## Recommender Algorithms
+The recommendation algorithms I looked at were Item Cosine Similarity based on both tfidf and count vectors, User Cosine Similarity, and PySpark’s Alternating Least Squares. As with many recommender systems, this data set struggles to resolve how to recommend specials for users it knows nothing about and for users who have only negatively rated a comedy special.
 
-### Apriori
-I spent way more time than I am willing to admit on an incorrectly labeled dataset and my predictions were all horrible. Nothing was working. So I turned to the model that the aforementioned paper used in their experiment. The tl;dr of their method was to only train on accounts occuring multiple times so to establish a dataset of fraud transactions and legal transactions, look at a bunch of combinations of features with a specific level of support for that group, and classify testing data based on the max support between both groups. They reported a nearly 100% accuracy rate but at the cost of not even attempting to flag novel transactions.
+My unscientifically-founded and in-progress solution to these problems is an app that asks you to pick a special that you’ve seen and give you user-based recommendations if you liked it and item-based dissimilarity suggestions if you didn’t. I haven’t had much time to sit down and watch much comedy or get others to engage with the app but I strongly believe that it is at least no worse than how suggestions are generated now.
 
-### Logistic Regression
+### Item-Item
+
+### User-User
+
+### Spark ALS
 
 
-### XGBoost
-This the model that seemed to perform the best overall on it's own and I took 2 very different approaches to using it. Given enough time or greater processing speed I could have been a bit more scientifically methodical with how I fed it features. 
-On the untransformed data set it did pretty well. 
-The main benefit of XGBoost over the traditional Gradient Boosting algorithm is computational speed (it's a lot faster). My understanding is that it benefits from working with OneHotEncoded sparse matrices, which was my first approach 
-
+### Dissimilarity Zombie!
 
 
 
-## Analysis
-![ROC Curves]()
-Parameters!
 ---
 <sub>[  **[Back to Sections](#sections)** ]</sub>
 
-## Cost Benefit & Scoring Metrics
+## Web App
 
-Business problems require business solutions and while it would be great to just shoot for a perfect 100% accuracy, that's not super plausible. In the case of this dataset, it's likely impossible. Instead I'd like to explore a business scenario and the various cost/benefit outcomes of adopting vs. not adopting a model.
+I deployed this recommendation using flask which may or may not be live at the time of reading this.
 
->*NOTE: The original competition guidelines specified results at a 20% lift. I'd imagine this is because 11 years ago, implementing a model was a lot more computationally expensive so they were looking for a strong confidence interval around a subgroup. I went with traditional ROC metrics to evaluate my models' performance.
-
-#### The Scenario!
-Our dataset consists of 99999 transactions over 98 days. This means we typically see about 1020 transactions per day, 26 of which are fraudulent. The typical transaction is about $27.50 (interestingly, fraudsters typically pull out only $23.00). Let's assume an employee can review and determine whether 1 transaction was fraudulent in 45 minutes, or 10 per day. Of course there are companies with a more robust tech and employee infrastructures to do this more quickly -- we'll circle back to that.
-
-Let's now imagine a world where we correctly flag all fraudulent cases and only fraudulent cases for review. This would require the labor of 3 employees, who we pay $18 an hour. This set of assumptions is problematic because we typically see 7 cases of fraud between 5pm and 8am vs 19 cases during working hours. Most people who have done online shopping before would not expect an order to process until the following business day, and since we typically see 2 cases of fraud per hour during work hours, it's reasonable to conclude that a 4 person fraud investigation team can keep up with the daily backlog with time leftover. Unfortunately though, nobody wants to work on weekends, and if they did, we'd have to pay them time and a half, making it more cost effective to just let fraud happen on weekends. This means we'll lose about $1,196.00 to fraud per weekend and $1,950 during a typical work week (or 97.5 employee hours). 
-
-Under this story we've told for ourselves, incorrectly flagging fraud as not fraud costs us $23.00, while incorrectly flagging a legal transaction as fraud costs us $18.00 -- 13.5 for employee time + the opportunity loss of reviewing actual fraud. If we correctly flag fraud we only have our $13.50 employee time while correctly flagging legal transactions incurs no loss. 
-
-There's a great irony to me in top-level fraud detection work. At high end firms where the cost of reviewing false positives is probably going to be much lower, you can afford to skew your predictions towards a perfect recall with a lot of false positives. 
-
-![Cost]
 ---
 
 <sub>[  **[Back to Sections](#sections)** ]</sub>
