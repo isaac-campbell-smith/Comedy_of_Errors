@@ -1,4 +1,5 @@
 # Comedy of Errors
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/75610744_1145056039031910_2648101896400666624_o.jpg" width="600">
 
 #### Text Classification for better understanding genre of stand up comedy specials
 
@@ -18,8 +19,6 @@ Data sources: https://scrapsfromtheloft.com/stand-up-comedy-scripts/ | https://i
 ---
 ## Introduction
 
-
-![ME](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/75610744_1145056039031910_2648101896400666624_o.jpg)
 
 
 
@@ -45,29 +44,31 @@ The transcriptions are very meticulous which was very appreciated, however there
 I knew I'd need some review data on these specials to flesh out a recommender system. I turned to IMDB for this as it was the only site I could find some. On side note, comedians have been in agreement for years that the traditional long format of a special is somewhat broken and perhaps a better metric to explore would be time spent watching the special. Hopefully I get picked up by Netflix to do that in the future!
 
 I needed to add in <b>Selenium</b> to my initial web-scraping pipeline for this task as there was quite a lot of 'load more' link clicking on some pages to get all the reviews. Suffice to say, I wound up with a very sparse ratings matrix - the density came in at 0.004! 
+<br><br>
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/reviewcounts.png" width="550">
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/specialcounts.png" width="550">
 
-![Review Hist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/reviewcounts.png)
-
-![Special Hist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/specialcounts.png)
+<br><br>
 
 As far as the actual makeup of these reviews, there are quite a few quirks that I have at least never observed in this area of study, which honestly didn't surprise me. People have very polarized feelings about stand up comedy which made for some interesting trends in recommendation models. 
-
-![Ratings type dist](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/ratings_distribution.png)
-![Loved Specials](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/loved.png)
-![Hated Specials](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/hated.png)
+<br><br>
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/ratings_distribution.png" width="610">
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/loved.png" width="315">
+<img src="https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/hated.png" width="300">
+<br>
 
 
 ---
 <sub>[  **[Back to Sections](#sections)** ]</sub>
 
 ## Transforming the Corpus
-After hours of tweaking stopwords and model parameters, the final steps I took to categorize these specials was to tokenize, lemmatize, apply a tfidf vectorizer and a k-means clustering algorithm. I even had to write a script to pull out title information to avoid data leakage. Choosing which swear words to drop was probably the most tricky to decide, but in the end I only left out 'fuck'. Check out the Clustering Analysis notebook vocabulary section and play around with it if you want to though - to my eye it was the only curse word that didn't bring any meaningful distinguishing characteristics to the clusters.
+After hours of tweaking stopwords and model parameters, the final steps I took to categorize these specials was to tokenize, lemmatize, apply a tfidf vectorizer and a k-means clustering algorithm. I even had to write a script to pull out title information to avoid data leakage - but it's very much a work in progress and merits further experimentation. Choosing which swear words to drop was probably the most tricky to decide, but in the end I only left out 'fuck'. Check out the Clustering Analysis notebook vocabulary section and play around with it if you want to though - to my eye it was the only curse word that didn't bring any meaningful distinguishing characteristics to the clusters.
 
-The success of these results from this process are probably not as apparent without a good amount of domain knowledge - as a data sceince peer said when I showed him some of my silhouette plots during this phase of the project, this is not a very good knife plot! But there is actually quite a lot to say about these clusters.
+The success of the results from this process are probably not as apparent without a lot of domain knowledge - as a data sceince peer said when I showed him some of my silhouette plots during this phase of the project, it is not a very good knife plot! But there is actually quite a lot to say about these clusters and it's to be expected that what typically qualifies as 'good' is not going to be obtainable on a project like this owing to the distinct creativity and word count of each performance.
 
 ![Knife](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/KnifePlot.png)
 
-As you might expect from those results, there is a lot of overlap in top feature words throughout these clusters, but there was enough degrees of signifance in common words and unique words to make some interpretations about them. I will say that having seen a lot of these specials was probably more helpful though. Here is a snapshot of my current working classification of the corpus:
+As you might expect from those results, there is a lot of overlap in top feature words throughout these clusters, but there are enough degrees of signifance in common words and unique words to make some interpretations about them. Having seen a lot of these specials was probably more helpful though. Here is a snapshot of my current working classification of the corpus (*note I highlighted groups on a 3 point scale indicating the similarity power of these groups - red being strong, orange being somewhat, and yellow being weak):
 
 ![Text Clusters](https://raw.githubusercontent.com/isaac-campbell-smith/Comedy_of_Errors/master/figs/text%20analysis.png)
 
@@ -77,17 +78,17 @@ As you might expect from those results, there is a lot of overlap in top feature
 ## Recommender Algorithms
 The recommendation algorithms I looked at were Item Cosine Similarity based on both tfidf and count vectors, User Cosine Similarity, and PySpark’s Alternating Least Squares. As with many recommender systems, this data set struggles to resolve how to recommend specials for users it knows nothing about and for users who have only negatively rated a comedy special.
 
-My unscientifically-founded and in-progress solution to these problems is an app that asks you to pick a special that you’ve seen and give you user-based recommendations if you liked it and item-based dissimilarity suggestions if you didn’t. I haven’t had much time to sit down and watch much comedy or get others to engage with the app but I strongly believe that it is at least no worse than how suggestions are generated now.
-
-### Item-Item
+### Item-Item 
+Good at identifying similar specials but has no consideration for quality. I did play around with this model to tweak how it would recommend dissimilar content.
 
 ### User-User
+Seems to make recommendations across very different genres in general. The cold-start problem is obvious as testing on the dataset produces a lot of null values due to how many users have only rated 1 special. The more interesting problem I discovered was what I call the negative-start problem, which is how to recommend stuff to users that have only rated something negatively. The model does a great job of telling users that they would also rate certain specials poorly, but this isn't all that useful!
 
 ### Spark ALS
-
+Similar to User-User in it's weakness but more accurate it seems. This would be a great model to deploy in a live application environment if I had a better working knowledge of managing and updating a database of users.
 
 ### Dissimilarity Zombie!
-
+This is the model that I deployed on a live website. It essentially combines the strengths of the User-based recommendations, and fills in its weaknesses based on the different genres I created and recommends dissimilar specials if you did not like a particular show.
 
 
 ---
@@ -95,13 +96,15 @@ My unscientifically-founded and in-progress solution to these problems is an app
 
 ## Web App
 
-I deployed this recommendation using flask which may or may not be live at the time of reading this.
+My unscientifically-founded and in-progress solution to these problems is a web app I build using Flask and deployed on AWS, which may or may not be live at the time of reading this. There, you can get some recommendations as a 'first-time user' in IMDB's comedy consumer community based on a comedy special you've seen, regardless of how you liked it. I haven’t had much time to sit down and watch much comedy or get others to engage with the app at the time of this README draft but I strongly believe that it is at least no worse than how suggestions are generated now. Check it out!
+
+http://ec2-54-186-155-75.us-west-2.compute.amazonaws.com/
 
 ---
 
 <sub>[  **[Back to Sections](#sections)** ]</sub>
 
 
-
-
 ## Takeaways
+
+After all this work, I like the genre groups I've clustered these performances into more than how Netflix groups their stand-up content. The UK comedic tradition is obviously much different than what we're exposed to in America and it's good that they have that tag for related content in their library. As this study shows, the Black American voice in stand-up is also quite a bit different than its White cousin. Our lived experiences lead to differences in creative expression which makes for a much different experience for consumers and these differences are very relevant to what we decide to watch. That Netflix does not include this category in their stand-up content is perplexing, though the variety that consumers are open to as long as the comedian makes them laugh is potentially endless, so it may not ultimately matter. I know I personally have favorite comics falling within every genre I marked. The Anne-Frank and Dirty/Dating groups are probably the weakest conceptually. From a style and voice stand point they're not bad, but in terms of content it's pretty murky. This all goes to show the general weakness of the model though, however I think it's a good starting point of discussion for further analysis of what stand-up comedy is and how we consume it. 
